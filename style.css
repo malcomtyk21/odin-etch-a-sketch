@@ -21,7 +21,7 @@ a {
     align-items: center;
 }
 
-.buttonControls {
+.buttonControls, .buttonModes {
     display: flex;
     justify-content: center;
 }

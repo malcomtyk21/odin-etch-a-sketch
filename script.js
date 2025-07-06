@@ -1,49 +1,77 @@
 // Initialisation 
 const MIN_GRID = 16;
 const MAX_GRID = 100;
-let gridSize = 16; 
+const MODES = {
+    HOVER : "hover",
+    RGB : "rgb",
+}
 
+let gridSize = 16; 
+let currentMode = MODES.HOVER;
 
 // DOM Elements
 const gridContainer = document.querySelector(".gridContainer");
 const clearBtn = document.querySelector("#clear");
 const createBtn = document.querySelector("#create")
+const hoverBtn = document.querySelector("#hover");
+const rainbowBtn = document.querySelector("#rainbow")
 
 // Functions
 function drawGrid(gridSize) {
-    // console.log("adding " + gridSize);
+    clearGrid();
     const totalGrid = gridSize * gridSize
 
-    for (i = 0; i < totalGrid; i++) {
+    for (let i = 0; i < totalGrid; i++) {
         const grid = document.createElement("div");
         grid.classList.add("grid");
         grid.style.width = `calc(100% / ${gridSize})`;
         grid.style.height = `calc(100% / ${gridSize})`;
         grid.style.border = '0.1ex solid #3b5465';
         grid.style.borderRadius = '3px';
-        gridContainer.appendChild(grid);
-        hoverGrid(grid);
+        grid.addEventListener("mouseover", hoverGrid);
+        gridContainer.appendChild(grid);       
     }
 }
 
-function hoverGrid(grid) {
-    grid.addEventListener("mouseover", colorGrid);
+function hoverGrid(event) {
+    const grid = event.target;
+
+    if (currentMode == "hover") {
+        grid.style.backgroundColor = "#446074";
+    } else {
+        grid.style.backgroundColor = randomRGBGrid();
+    }
 }
 
-function colorGrid(event) {
-    const grid = event.target;
-    grid.style.backgroundColor = "#446074";
+function randomRGBGrid() {
+    const red = Math.floor(Math.random() * 256);
+    const green = Math.floor(Math.random() * 256);
+    const blue = Math.floor(Math.random() * 256);
+    return 'rgb(' + red + ',' + green + ',' + blue + ')';
 }
 
 function clearGrid() {
     const allGrid = document.querySelectorAll(".grid");
-    console.log(allGrid)
     allGrid.forEach((grid) => {
         grid.style.backgroundColor = "";
     })
+
 }
 
+// Event Listener 
 clearBtn.addEventListener("click", clearGrid);
+
+hoverBtn.addEventListener("click", () => {
+    currentMode = MODES.HOVER;
+    gridContainer.innerHTML = "";
+    drawGrid(gridSize);
+});
+
+rainbowBtn.addEventListener("click", () => {
+    currentMode = MODES.RGB;
+    gridContainer.innerHTML = "";
+    drawGrid(gridSize);
+});
 
 createBtn.addEventListener("click", () => {
     let validGrid = true;
@@ -54,7 +82,6 @@ createBtn.addEventListener("click", () => {
     }
 
     while (validGrid) {
-        console.log("in loop");
         newGridSize = prompt("Please enter new grid from 16-100"); 
         if ((MIN_GRID <= newGridSize) && (newGridSize <= MAX_GRID)){
             validGrid = false;
@@ -66,4 +93,4 @@ createBtn.addEventListener("click", () => {
     drawGrid(gridSize);
 });
 
-document.body.onload = drawGrid(gridSize);
+window.addEventListener("DOMContentLoaded", () => drawGrid(gridSize));
