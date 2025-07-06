@@ -12,9 +12,11 @@ let currentMode = MODES.HOVER;
 // DOM Elements
 const gridContainer = document.querySelector(".gridContainer");
 const clearBtn = document.querySelector("#clear");
-const createBtn = document.querySelector("#create")
+const createBtn = document.querySelector("#create");
 const hoverBtn = document.querySelector("#hover");
-const rainbowBtn = document.querySelector("#rainbow")
+const rainbowBtn = document.querySelector("#rainbow");
+const gridInfo = document.querySelector(".gridInfo");
+const modeInfo = document.querySelector(".modeInfo");
 
 // Functions
 function drawGrid(gridSize) {
@@ -64,12 +66,14 @@ clearBtn.addEventListener("click", clearGrid);
 hoverBtn.addEventListener("click", () => {
     currentMode = MODES.HOVER;
     gridContainer.innerHTML = "";
+    modeInfo.innerHTML = `Mode: Hover`;
     drawGrid(gridSize);
 });
 
 rainbowBtn.addEventListener("click", () => {
     currentMode = MODES.RGB;
     gridContainer.innerHTML = "";
+    modeInfo.innerHTML = `Mode: Rainbow`;
     drawGrid(gridSize);
 });
 
@@ -88,8 +92,9 @@ createBtn.addEventListener("click", () => {
         }
     }
 
-    let gridSize = newGridSize;
+    gridSize = newGridSize;
     gridContainer.innerHTML = "";
+    gridInfo.innerHTML = `Grid Size: ${gridSize} x ${gridSize}`;
     drawGrid(gridSize);
 });
 

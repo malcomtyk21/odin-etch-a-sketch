@@ -21,10 +21,16 @@ a {
     align-items: center;
 }
 
-.buttonControls, .buttonModes {
+.information p {
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.buttonControls, .buttonModes, .information {
     display: flex;
     justify-content: center;
 }
+
 
 .gridContainer {
     display: flex;
